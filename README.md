@@ -8,6 +8,21 @@ A modern, responsive flight search engine built with **ASP.NET Core (MVC)** and 
 - **Premium UI**: Modern dark/light modes, animations (Animate.css), and responsive design.
 - **Dynamic Data**: Powered by stored procedures for efficient searching.
 
+## 📸 Screenshots
+
+### 1. Home Page & Search
+![SkySearcher Home](wwwroot/images/screenshots/home.png)
+*Modern hero section with dynamic search options for Flights and Hotels.*
+
+### 2. Flight + Hotel Results
+![Flight + Hotel Results](wwwroot/images/screenshots/flight_hotel_results.png)
+*Detailed breakdown of bundled packages including luxury accommodation.*
+
+### 3. Flight Only Results
+![Flight Only Results](wwwroot/images/screenshots/flight_results.png)
+*Clean, intuitive listing of available flights with real-time pricing.*
+
+
 ---
 
 ## 🛠️ Setup Instructions
