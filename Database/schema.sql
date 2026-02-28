@@ -30,7 +30,9 @@ INSERT INTO Flights (FlightName, FlightType, Source, Destination, PricePerSeat) 
 ('SpicerJet 303', 'Domestic', 'Delhi', 'Mumbai', 4800.00),
 ('Vistara 404', 'Domestic', 'Bangalore', 'Delhi', 5200.00),
 ('Air India 505', 'International', 'Delhi', 'New York', 75000.00),
-('Emirates 606', 'International', 'Mumbai', 'Dubai', 25000.00);
+('Emirates 606', 'International', 'Mumbai', 'Dubai', 25000.00),
+('Emirates 707', 'International', 'Delhi', 'Dubai', 30000.00),
+('Air India 808', 'International', 'Delhi', 'Dubai', 28500.00);
 
 -- Insert Sample Data: Hotels (One hotel per destination)
 INSERT INTO Hotels (HotelName, HotelType, Location, PricePerDay) VALUES
