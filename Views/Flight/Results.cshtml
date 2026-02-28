@@ -1,0 +1,149 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Search Results - SkySearcher";
+    var searchType = ViewBag.SearchType;
+    var persons = ViewBag.Persons;
+}
+
+<div class="results-container animate__animated animate__fadeIn">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none"><i class="fas fa-search me-1"></i> New Search</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Results</li>
+        </ol>
+    </nav>
+
+    <div class="results-card">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+            <div>
+                <h2 class="fw-bold mb-0">@searchType</h2>
+                <p class="text-muted mb-0">Found matching results based on your criteria</p>
+            </div>
+            <div class="text-end">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-user-friends me-1"></i> @persons Travelers</span>
+            </div>
+        </div>
+
+        @if (Model == null || ((System.Collections.IEnumerable)Model).GetEnumerator().MoveNext() == false)
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-plane-slash fa-4x text-muted opacity-25"></i>
+                </div>
+                <h3 class="fw-bold">No Flights Found</h3>
+                <p class="text-muted">We couldn't find any flights for this route. Try different cities or dates.</p>
+                <a asp-action="Index" class="btn btn-primary px-5 mt-3 rounded-pill">Modify Search</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        @if (searchType == "Flight Only")
+                        {
+                            <tr>
+                                <th>Flight Details</th>
+                                <th>Type</th>
+                                <th>Route</th>
+                                <th class="text-end">Total Price</th>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <th>Flight Details</th>
+                                <th>Route</th>
+                                <th>Hotel Accommodation</th>
+                                <th class="text-end">Package Total</th>
+                            </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (searchType == "Flight Only")
+                                {
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-light p-2 rounded me-3">
+                                                <i class="fas fa-plane text-primary fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">@item.FlightName</div>
+                                                <div class="small text-muted">ID: #@item.FlightId</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge @(item.FlightType == "International" ? "bg-info" : "bg-light text-dark") border">
+                                            @item.FlightType
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold">@item.Source</span>
+                                            <i class="fas fa-arrow-right mx-2 text-muted small"></i>
+                                            <span class="fw-bold">@item.Destination</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="h5 fw-bold text-primary mb-0">@item.TotalCost.ToString("C")</div>
+                                        <div class="small text-muted">Incl. taxes & fees</div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-light p-2 rounded me-3">
+                                                <i class="fas fa-plane text-primary fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">@item.FlightName</div>
+                                                <div class="small text-muted">ID: #@item.FlightId</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold">@item.Source</span>
+                                            <i class="fas fa-arrow-right mx-2 text-muted small"></i>
+                                            <span class="fw-bold">@item.Destination</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                                                <i class="fas fa-hotel text-warning fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">@item.HotelName</div>
+                                                <div class="small text-muted">Stay at Destination</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="h5 fw-bold text-success mb-0">@item.TotalCost.ToString("C")</div>
+                                        <div class="small text-muted">Bundle Savings</div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center mt-5">
+                <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
+                    <i class="fas fa-chevron-left me-2"></i> Back to Search
+                </a>
+                <button class="btn btn-primary px-5 rounded-pill shadow-sm" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i> Print Itinerary
+                </button>
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,93 @@
+@model FlightSearchEngine.Models.SearchViewModel
+
+@{
+    ViewData["Title"] = "Real-World Flight Search";
+}
+
+<div class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="animate__animated animate__fadeInDown">SkySearcher: Fly Anywhere</h1>
+        <p class="animate__animated animate__fadeInUp">Search over 5,000 global destinations at the lowest prices.</p>
+    </div>
+</div>
+
+<div class="search-container">
+    <div class="search-card animate__animated animate__fadeInUp">
+        <form asp-controller="Flight" method="post" id="searchForm">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="row g-3">
+                @* ... existing fields ... *@
+                <div class="col-lg-4 col-md-6">
+                    <label asp-for="Source" class="form-label fw-bold">From</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-plane-departure text-muted"></i></span>
+                        <select asp-for="Source" asp-items="Model.SourceList" class="form-select custom-select" required>
+                            <option value="">-- City or Airport --</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Source" class="text-danger small"></span>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <label asp-for="Destination" class="form-label fw-bold">To</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-map-marker-alt text-muted"></i></span>
+                        <select asp-for="Destination" asp-items="Model.DestinationList" class="form-select custom-select" required>
+                            <option value="">-- City or Airport --</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Destination" class="text-danger small"></span>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <label asp-for="NumberOfPersons" class="form-label fw-bold">Travelers</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-users text-muted"></i></span>
+                        <input asp-for="NumberOfPersons" type="number" class="form-control" min="1" max="10" value="1" />
+                    </div>
+                    <span asp-validation-for="NumberOfPersons" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <button type="submit" asp-action="SearchFlights" class="btn btn-flights btn-lg px-4 search-btn">
+                    Search Flights
+                </button>
+                <button type="submit" asp-action="SearchFlightsWithHotels" class="btn btn-packages btn-lg px-4 search-btn">
+                    Flight + Hotel
+                </button>
+            </div>
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner-border text-warning" style="width: 4rem; height: 4rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <h2 class="mt-4 fw-bold">Finding the best deals for you...</h2>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                var source = $('#Source').val();
+                var dest = $('#Destination').val();
+
+                if (source && dest && source === dest) {
+                    alert('Source and Destination cannot be the same!');
+                    e.preventDefault();
+                    return false;
+                }
+
+                if ($(this).valid()) {
+                    $('#loadingOverlay').css('display', 'flex').hide().fadeIn();
+                }
+            });
+        });
+    </script>
+}
+
